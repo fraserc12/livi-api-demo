@@ -38,7 +38,7 @@ public class HealthStatusService {
     return healthStatus;
   }
 
-
+  /* using CompletableFuture fetch URL using GET and store OK or FAIL */
   void fetchServiceUrlCheck(List<HealthStatus> services) throws ExecutionException, InterruptedException {
     List<CompletableFuture<String>> allFutures = new ArrayList<>();
     services.forEach(this::fetchUrl);
@@ -46,22 +46,19 @@ public class HealthStatusService {
   }
 
   @Async
-  public CompletableFuture<HealthStatus> fetchUrl(HealthStatus item) {
+  public CompletableFuture<HealthStatus> fetchUrl(HealthStatus status) {
     try {
-      restTemplate.getForEntity(item.getServiceUrl(), String.class);
-//      if(response.getStatusCode().equals(HttpStatus.OK)) {
-        item.setStatus(APPLICATION_UP);
-        item.setUpdatedDate(new Date());
-        HealthStatus saved = healthStatusRepository.save(item);
+      restTemplate.getForEntity(status.getServiceUrl(), String.class);
+        status.setStatus(APPLICATION_UP);
+        status.setUpdatedDate(new Date());
+        HealthStatus saved = healthStatusRepository.save(status);
       return CompletableFuture.completedFuture(saved);
-//      }
     } catch (Exception ex) {
-      item.setStatus(APPLICATION_DOWN);
-      item.setUpdatedDate(new Date());
-      HealthStatus saved = healthStatusRepository.save(item);
+      status.setStatus(APPLICATION_DOWN);
+      status.setUpdatedDate(new Date());
+      HealthStatus saved = healthStatusRepository.save(status);
       return CompletableFuture.completedFuture(saved);
     }
-//    return item;
   }
 
   public List<HealthStatus> getAllServices() {
@@ -85,7 +82,6 @@ public class HealthStatusService {
           p.setServiceUrl(serviceRequest.getUrl());
           p.setServiceName(serviceRequest.getServiceName());
           p.setUpdatedDate(new Date());
-          p.setStatus(serviceRequest.getStatus());
         }
     );
 

@@ -17,7 +17,7 @@ public class PollingService {
   }
 
   @Async
-  @Scheduled(fixedRate = 5000, initialDelay = 100)
+  @Scheduled(fixedRate = 10000, initialDelay = 100)
   public void scheduleFixedRateTask() throws ExecutionException, InterruptedException {
     statusService.fetchServiceUrlCheck(statusService.getAllServices());
   }

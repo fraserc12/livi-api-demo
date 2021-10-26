@@ -15,5 +15,4 @@ public class ServiceRequest {
   @NotNull
   @JsonProperty("name")
   private String serviceName;
-  private String status;
 }
