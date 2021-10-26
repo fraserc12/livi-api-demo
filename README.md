@@ -1,6 +1,15 @@
 
 # Livi Demo Health Application
 
+What this app does.
+-------
+
+This app will ping every Url stored in the database Asynchronously, every 10 seconds. 
+Persisting an OK or FAIL status for that service, if that external service is up or down.
+
+
+This application also acts as an API to create, update and delete external Services. 
+
 Setup
 -------
 I've set up a Docker environment for this application to run along with a **MySql** database.
